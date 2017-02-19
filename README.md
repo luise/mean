@@ -13,11 +13,8 @@ MEAN stack. The current code deploys a todo app, but we want to change it to
 deploy our very simple example app, `awesome-restaurant-app`, located in
 [github.com/luise/awesome-restaurant-app](https://github.com/luise/awesome-restaurant-app.git).
 
-To do this, we just have to tweak a few lines of code in the following files:
-
-* [`Dockerfile`](./Dockerfile) (1 line)
-* [`Makefile`](./Makefile) (1 line)
-* [`example.js`](./example.js) (2 lines)
+To do this, we just have to tweak a single line of code in
+[`example.js`](./example.js)
 
 ### How to
 
@@ -37,57 +34,15 @@ do something similar to your own MEAN app before deploying it with Quilt.
 For an example, see how [server.js](https://github.com/luise/awesome-restaurant-app/blob/master/server.js#L10)
 in the `awesome-restaurant-app` uses the URI in [config/database.js](https://github.com/luise/awesome-restaurant-app/blob/master/config/database.js) to connect to MongoDB.
 
-##### Dockerfile
-In [`Dockerfile`](./Dockerfile), we change the `git clone`
-command to clone the GitHub repository that contains our app.
-
-```
-RUN git clone https://github.com/luise/awesome-restaurant-app.git .
-```
-
-This says that we want the application containers to host the source code
-for the `awesome-restaurant-app` rather than the todo app.
-
-##### Makefile
-The current [`Makefile`](./Makefile) points to Quilt's Dockerhub
-repository. Let's change that, so it points to the container registry
-repository (e.g. on [Docker Hub](https://hub.docker.com/)), that contains
-our image.
-
-```
-REPO = luise/mean-service
-```
-
-This way we will push and pull our application image to/from our personal
-repository in the next step.
-
-##### Build and Push Image
-In a shell, run `make push-image` from within this repository. This command
-will build an image from the Dockerfile we just modified, and push the resulting
-image to our image registry repository.
-
-```
-$ make push-image
-The push refers to a repository [docker.io/luise/mean-service]
-...
-```
-
-This will take a few minutes.
-
-The above step requires that Docker is installed and running, and that we're
-authenticated - e.g. by using `docker login` for DockerHub. Check out
-[Docker's website](https://docs.docker.com/engine/installation/) for more.
-
 ##### example.js
 The `Node` constructor called in [`example.js`](./example.js) takes a string
-`image` which specifies the location of a container image. The Node.js
-application containers will be created from this image, so let's have it point
-to the image we just created:
+`repo` which specifies the git repository containing the Node application to
+deploy. Let's change this URL to point to our restaurant app:
 
 ```javascript
 var app = new Node({
   ...
-  image: "luise/mean-service",
+  repo: "https://github.com/luise/awesome-restaurant-app.git",
   ...
 });
 ```
@@ -131,12 +86,12 @@ You can see the status of the system with the command `quilt ps`. The system is
 fully booted when the `STATUS`es of all containers are `running`:
 
 ```
-CONTAINER       MACHINE         COMMAND                LABELS      STATUS     CREATED               PUBLIC IP
-7101084e12ab    89d34da8fde9    luise/mean-service     app         running    About a minute ago
-957596e1beed    89d34da8fde9    quilt/haproxy          hap         running    About a minute ago    54.241.174.139:80
-c8e5464625e0    89d34da8fde9    quilt/mongo            mongo       running    About a minute ago
+CONTAINER       MACHINE         COMMAND                                 LABELS      STATUS     CREATED               PUBLIC IP
+7101084e12ab    89d34da8fde9    node-app:awesome-restaurant-app.git     app         running    About a minute ago
+957596e1beed    89d34da8fde9    haproxy:1.6.4                           hap         running    About a minute ago    54.241.174.139:80
+c8e5464625e0    89d34da8fde9    quilt/mongo                             mongo       running    About a minute ago
 
-4d3d6be15985    a2077202355d    quilt/haproxy          hap         running    About a minute ago    54.193.9.14:80
+4d3d6be15985    a2077202355d    haproxy:1.6.4                           hap         running    About a minute ago    54.193.9.14:80
 ...
 ```
 
