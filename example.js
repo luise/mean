@@ -17,7 +17,7 @@ namespace.deploy(baseMachine.asWorker().replicate(3));
 var mongo = new Mongo(3);
 var app = new Node({
   nWorker: 3,
-  image: "quilt/mean-service",
+  image: "quilt/nodejs",
   env: {
     PORT: "80",
     MONGO_URI: mongo.uri("mean-example")
