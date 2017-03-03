@@ -120,7 +120,7 @@ similar to this:
 ```
 $ quilt daemon
 INFO [Feb 17 16:23:59.181] db.Cluster:
-	Cluster-1{}                
+	Cluster-1{}
 INFO [Feb 17 16:23:59.184] db.Machine:
 	Machine-2{c14105b79bb167a088cf1ae8c9169b51deb6b29f, Master, Amazon us-west-1 m4.large, Disk=32GB}
 	Machine-3{89d34da8fde90ce26650c0629f22e2c9e48b8f46, Worker, Amazon us-west-1 m4.large, Disk=32GB}
@@ -131,12 +131,12 @@ You can see the status of the system with the command `quilt ps`. The system is
 fully booted when the `STATUS`es of all containers are `running`:
 
 ```
-CONTAINER       MACHINE         COMMAND                LABELS              STATUS     CREATED               PUBLIC IP
-7101084e12ab    89d34da8fde9    luise/mean-service     app                 running    About a minute ago    
-957596e1beed    89d34da8fde9    quilt/haproxy          hap                 running    About a minute ago    54.241.174.139:80
-c8e5464625e0    89d34da8fde9    quilt/mongo            mongo-initial       running    About a minute ago    
-                                                                                                            
-4d3d6be15985    a2077202355d    quilt/haproxy          hap                 running    About a minute ago    54.193.9.14:80
+CONTAINER       MACHINE         COMMAND                LABELS      STATUS     CREATED               PUBLIC IP
+7101084e12ab    89d34da8fde9    luise/mean-service     app         running    About a minute ago
+957596e1beed    89d34da8fde9    quilt/haproxy          hap         running    About a minute ago    54.241.174.139:80
+c8e5464625e0    89d34da8fde9    quilt/mongo            mongo       running    About a minute ago
+
+4d3d6be15985    a2077202355d    quilt/haproxy          hap         running    About a minute ago    54.193.9.14:80
 ...
 ```
 

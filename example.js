@@ -30,8 +30,8 @@ var haproxy = new HaProxy(3, app.services());
 // access the web application by using the IP address of any Worker VM.
 haproxy.service.place(new LabelRule(true, haproxy.service));
 
-mongo.connect(mongo.port(), app);
-app.connect(mongo.port(), mongo);
+mongo.connect(mongo.port, app);
+app.connect(mongo.port, mongo);
 haproxy.public();
 
 namespace.deploy(app);
