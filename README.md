@@ -11,7 +11,7 @@ using Quilt.
 This repository already contains all the code needed for deploying the multi-node
 MEAN stack. The current code deploys a todo app, but we want to change it to
 deploy our very simple example app, `awesome-restaurant-app`, located in
-[github.com/LuiseV/awesome-restaurant-app](https://github.com/LuiseV/awesome-restaurant-app.git).
+[github.com/luise/awesome-restaurant-app](https://github.com/luise/awesome-restaurant-app.git).
 
 To do this, we just have to tweak a few lines of code in the following files:
 
@@ -34,15 +34,15 @@ mongoose.connect(process.env.MONGO_URI);
 This is already done in the `awesome-restaurant-app`, but you'll need to
 do something similar to your own MEAN app before deploying it with Quilt.
 
-For an example, see how [server.js](https://github.com/LuiseV/awesome-restaurant-app/blob/master/server.js#L10)
-in the `awesome-restaurant-app` uses the URI in [config/database.js](https://github.com/LuiseV/awesome-restaurant-app/blob/master/config/database.js) to connect to MongoDB.
+For an example, see how [server.js](https://github.com/luise/awesome-restaurant-app/blob/master/server.js#L10)
+in the `awesome-restaurant-app` uses the URI in [config/database.js](https://github.com/luise/awesome-restaurant-app/blob/master/config/database.js) to connect to MongoDB.
 
 ##### Dockerfile
 In [`Dockerfile`](./Dockerfile), we change the `git clone`
 command to clone the GitHub repository that contains our app.
 
 ```
-RUN git clone https://github.com/LuiseV/awesome-restaurant-app.git .
+RUN git clone https://github.com/luise/awesome-restaurant-app.git .
 ```
 
 This says that we want the application containers to host the source code
