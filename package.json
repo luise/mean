@@ -1,0 +1,11 @@
+{
+  "name": "@quilt/mean",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "@quilt/quilt": "quilt/quilt",
+    "@quilt/mongo": "quilt/mongo",
+    "@quilt/nodejs": "quilt/nodejs",
+    "@quilt/haproxy": "quilt/haproxy"
+  }
+}

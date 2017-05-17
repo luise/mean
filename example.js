@@ -1,6 +1,7 @@
-var HaProxy = require("github.com/quilt/haproxy").Haproxy;
-var Mongo = require("github.com/quilt/mongo");
-var Node = require("github.com/quilt/nodejs");
+const {createDeployment, Machine, Range, githubKeys, LabelRule} = require("@quilt/quilt");
+var HaProxy = require("@quilt/haproxy").Haproxy;
+var Mongo = require("@quilt/mongo");
+var Node = require("@quilt/nodejs");
 
 // AWS
 var namespace = createDeployment({});
