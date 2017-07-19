@@ -5,7 +5,7 @@ var Mongo = require("@quilt/mongo");
 var Node = require("@quilt/nodejs");
 
 // AWS
-var namespace = createDeployment({});
+var namespace = createDeployment();
 
 var baseMachine = new Machine({
     provider: "Amazon",
@@ -19,7 +19,7 @@ namespace.deploy(baseMachine.asWorker().replicate(3));
 var mongo = new Mongo(3);
 var app = new Node({
   nWorker: 3,
-  repo: "https://github.com/tejasmanohar/node-todo.git",
+  repo: "https://github.com/quilt/node-todo.git",
   env: {
     PORT: "80",
     MONGO_URI: mongo.uri("mean-example")
@@ -33,10 +33,7 @@ var proxy = haproxy.singleServiceLoadBalancer(3, app._app);
 // access the web application by using the IP address of any Worker VM.
 proxy.place(new LabelRule(true, proxy));
 
-mongo.connect(mongo.port, app);
 app.connect(mongo.port, mongo);
 proxy.allowFrom(publicInternet, haproxy.exposedPort);
 
-namespace.deploy(app);
-namespace.deploy(mongo);
-namespace.deploy(proxy);
+namespace.deploy([app, mongo, proxy]);
