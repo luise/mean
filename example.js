@@ -1,5 +1,5 @@
 const {createDeployment, Machine, Range, githubKeys, LabelRule} = require("@quilt/quilt");
-var HaProxy = require("@quilt/haproxy").Haproxy;
+var HaProxy = require("@quilt/haproxy");
 var Mongo = require("@quilt/mongo");
 var Node = require("@quilt/nodejs");
 
