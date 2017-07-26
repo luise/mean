@@ -14,7 +14,7 @@ deploy our very simple example app, `awesome-restaurant-app`, located in
 [github.com/luise/awesome-restaurant-app](https://github.com/luise/awesome-restaurant-app.git).
 
 To do this, we just have to tweak a single line of code in
-[`example.js`](./example.js)
+[`mean.js`](./mean.js)
 
 ### How to
 
@@ -34,8 +34,8 @@ do something similar to your own MEAN app before deploying it with Quilt.
 For an example, see how [server.js](https://github.com/luise/awesome-restaurant-app/blob/master/server.js#L10)
 in the `awesome-restaurant-app` uses the URI in [config/database.js](https://github.com/luise/awesome-restaurant-app/blob/master/config/database.js) to connect to MongoDB.
 
-##### example.js
-The `Node` constructor called in [`example.js`](./example.js) takes a string
+##### mean.js
+The `Node` constructor called in [`mean.js`](./mean.js) takes a string
 `repo` which specifies the git repository containing the Node application to
 deploy. Let's change this URL to point to our restaurant app:
 
@@ -68,7 +68,7 @@ guide, now is a good time to check it out and set up your `GOPATH` and
 `QUILT_PATH`, and `quilt get` the Quilt specs.
 
 When you're set up, run `quilt daemon` in one shell, and then run
-`quilt run github.com/quilt/mean/example.js` in another shell. If successful,
+`quilt run ./mean.js` from the `mean` directory in another shell. If successful,
 the `quilt run` command has no output, while the daemon will output logs
 similar to this:
 
