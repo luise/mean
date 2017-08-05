@@ -63,9 +63,8 @@ relevant properties of the `baseMachine` object.
 
 ##### Deploy
 Now we're ready to deploy our MEAN stack application! If you haven't already
-worked through [Quilt's Getting Started guide](https://github.com/NetSys/quilt/blob/master/docs/GettingStarted.md)
-guide, now is a good time to check it out and set up your `GOPATH` and
-`QUILT_PATH`, and `quilt get` the Quilt specs.
+worked through [Quilt's Getting Started guide](http://docs.quilt.io/#getting-started)
+guide, now is a good time to check it out and set up Quilt.
 
 When you're set up, run `quilt daemon` in one shell, and then run
 `quilt run ./mean.js` from the `mean` directory in another shell. If successful,
