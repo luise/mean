@@ -1,4 +1,4 @@
-const { createDeployment, Machine, Range, githubKeys, LabelRule, publicInternet }
+const { createDeployment, Machine, Range, githubKeys, publicInternet }
   = require('@quilt/quilt');
 const haproxy = require('@quilt/haproxy');
 const Mongo = require('@quilt/mongo');
@@ -30,12 +30,7 @@ const app = new Node({
 // to access app._app directly. Until this is fixed, silence the linter
 // warning about underscore dangles.
 // eslint-disable-next-line no-underscore-dangle
-const proxy = haproxy.singleServiceLoadBalancer(3, app._app);
-
-// Places all haproxy containers on separate Worker VMs.
-// This is just for convenience for the example instructions, as it allows us to
-// access the web application by using the IP address of any Worker VM.
-proxy.place(new LabelRule(true, proxy));
+const proxy = haproxy.singleServiceLoadBalancer(1, app._app);
 
 app.connect(mongo.port, mongo);
 proxy.allowFrom(publicInternet, haproxy.exposedPort);

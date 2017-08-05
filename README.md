@@ -88,7 +88,6 @@ fully booted when the `STATUS`es of all containers are `running`:
 ```
 CONTAINER       MACHINE         COMMAND                                 LABELS      STATUS     CREATED               PUBLIC IP
 7101084e12ab    89d34da8fde9    node-app:awesome-restaurant-app.git     app         running    About a minute ago
-957596e1beed    89d34da8fde9    haproxy:1.6.4                           hap         running    About a minute ago    54.241.174.139:80
 c8e5464625e0    89d34da8fde9    quilt/mongo                             mongo       running    About a minute ago
 
 4d3d6be15985    a2077202355d    haproxy:1.6.4                           hap         running    About a minute ago    54.193.9.14:80
@@ -96,9 +95,9 @@ c8e5464625e0    89d34da8fde9    quilt/mongo                             mongo   
 ```
 
 ##### Access Web App
-We can now access our web app by using the public IP address of any of our VMs
-that are hosting a proxy container. The above output from `quilt ps` shows us
-that we can access the web app at `54.241.174.139` and `54.193.9.14`.
+We can now access our web app by using the public IP address of the VM hosting
+a proxy container. The above output from `quilt ps` shows us that we can access
+the web app at `54.193.9.14`.
 
 Now, simply go to `http://PROXY_PUBLIC_IP:80` in your browser. As you see, our
 app is up!
