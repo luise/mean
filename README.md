@@ -82,7 +82,7 @@ INFO [Feb 17 16:23:59.184] db.Machine:
 	...
 ```
 
-You can see the status of the system with the command `quilt ps`. The system is
+You can see the status of the system with the command `quilt show`. The system is
 fully booted when the `STATUS`es of all containers are `running`:
 
 ```
@@ -96,7 +96,7 @@ c8e5464625e0    89d34da8fde9    quilt/mongo                             mongo   
 
 ##### Access Web App
 We can now access our web app by using the public IP address of the VM hosting
-a proxy container. The above output from `quilt ps` shows us that we can access
+a proxy container. The above output from `quilt show` shows us that we can access
 the web app at `54.193.9.14`.
 
 Now, simply go to `http://PROXY_PUBLIC_IP:80` in your browser. As you see, our
