@@ -32,7 +32,7 @@ const app = new Node({
 // eslint-disable-next-line no-underscore-dangle
 const proxy = haproxy.singleServiceLoadBalancer(1, app._app);
 
-app.connect(mongo.port, mongo);
+mongo.allowFrom(app, mongo.port);
 proxy.allowFrom(publicInternet, haproxy.exposedPort);
 
 namespace.deploy([app, mongo, proxy]);
