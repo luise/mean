@@ -26,13 +26,9 @@ const app = new Node({
   },
 });
 
-// The Node module isn't designed well for composition right now, so we have
-// to access app._app directly. Until this is fixed, silence the linter
-// warning about underscore dangles.
-// eslint-disable-next-line no-underscore-dangle
-const proxy = haproxy.singleServiceLoadBalancer(1, app._app);
+const proxy = haproxy.simpleLoadBalancer(app.cluster);
 
-mongo.allowFrom(app, mongo.port);
+mongo.allowFrom(app.cluster, mongo.port);
 proxy.allowFrom(publicInternet, haproxy.exposedPort);
 
 namespace.deploy([app, mongo, proxy]);
