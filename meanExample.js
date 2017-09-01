@@ -18,5 +18,6 @@ utils.addSshKey(machine);
 infrastructure.deploy(machine.asMaster());
 infrastructure.deploy(machine.asWorker().replicate(count));
 
-const mean = new Mean(count);
+const nodeRepository = 'https://github.com/quilt/node-todo.git';
+const mean = new Mean(count, nodeRepository);
 infrastructure.deploy(mean);

@@ -17,9 +17,9 @@ deploy our very simple example app, `awesome-restaurant-app`, located in
 [github.com/luise/awesome-restaurant-app](https://github.com/luise/awesome-restaurant-app.git).
 
 To do this, we just have to tweak a single line of code in
-[`mean.js`](./mean.js)
+[`meanExample.js`](./meanExample.js)
 
-### How to
+### Deploying a MEAN stack in isolation
 
 ##### Our app
 First, we make sure that our MongoDB connection URI is set to the `MONGO_URI`
@@ -37,17 +37,13 @@ do something similar to your own MEAN app before deploying it with Quilt.
 For an example, see how [server.js](https://github.com/luise/awesome-restaurant-app/blob/master/server.js#L10)
 in the `awesome-restaurant-app` uses the URI in [config/database.js](https://github.com/luise/awesome-restaurant-app/blob/master/config/database.js) to connect to MongoDB.
 
-##### mean.js
-The `Node` constructor called in [`mean.js`](./mean.js) takes a string
-`repo` which specifies the git repository containing the Node application to
-deploy. Let's change this URL to point to our restaurant app:
+##### Updating the application code repository
+The `Mean` constructor called in [`meanExample.js`](./meanExample.js) takes a
+string `repo` which specifies the git repository containing the Node application
+to deploy. Let's change this URL to point to our restaurant app:
 
 ```javascript
-var app = new Node({
-  ...
-  repo: "https://github.com/luise/awesome-restaurant-app.git",
-  ...
-});
+const nodeRepository = "https://github.com/luise/awesome-restaurant-app.git";
 ```
 
 If you want to change the characteristics of the VMs, go ahead and modify the
@@ -97,6 +93,45 @@ app is up!
 ##### Shut Down VMs
 To shut down our application and VMs, run `quilt stop`, and wait for the message
 `Successfully halted machines.` in the quilt daemon output.
+
+### Deploying a MEAN stack alongside other services
+
+The description above described how to modify [meanExample.js](./meanExample.js)
+to run your own MEAN application.  [meanExample.js](./meanExample.js) created
+virtual machines, and used the functionality in [mean.js](./mean.js) to launch a
+MEAN stack on those machines.  You may want to incorporate your application
+into a larger collection of services that you deploy with Quilt.  To do this,
+first import the functionality in [mean.js](./mean.js) by requiring the
+`@quilt/mean` npm package:
+
+```javascript
+require('@quilt/mean');
+```
+
+You'll also need to add a dependency on `@quilt/mean` to `package.json`:
+
+```json
+"dependencies": {
+  "@quilt/mean": "quilt/mean",
+}
+```
+
+Then use the `Mean` constructor, as in [meanExample.js](./meanExample.js), to
+initialize and deploy a MEAN stack:
+
+```javascript
+// Create a Quilt deployment object. This will be used to deploy the MEAN
+// stack, and can also be used to deploy other parts of your application
+// (e.g., myOtherService.deploy(deployment)).
+const deployment = quilt.createDeployment();
+
+// Use 3 Mongo containers and 3 Node application containers.
+const count = 3;
+const mean = new Mean(count, 'https://github.com/you/your-cool-app.git');
+
+// Add MEAN to the deployment.
+mean.deploy(deployment);
+```
 
 ## How This Works
 

@@ -3,12 +3,12 @@ const Mongo = require('@quilt/mongo');
 const Node = require('@quilt/nodejs');
 const { publicInternet } = require('@quilt/quilt');
 
-function Mean(count) {
+function Mean(count, nodeRepo) {
   const port = 80;
   this.mongo = new Mongo(count);
   this.app = new Node({
     nWorker: count,
-    repo: 'https://github.com/quilt/node-todo.git',
+    repo: nodeRepo,
     env: {
       PORT: port.toString(),
       MONGO_URI: this.mongo.uri('mean-example'),
