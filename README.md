@@ -5,6 +5,9 @@ MEAN stack app can be both time consuming and costly, but Quilt simplifies this
 process. Below, we walk through how to deploy your application in the cloud
 using Quilt.
 
+If you'd like to learn more about the files in this repository and how they
+work, scroll to the [How This Works](#how-this-works) section at the end.
+
 <img src="./images/mean.gif">
 
 ## Deploying your MEAN stack app with Quilt
@@ -47,19 +50,9 @@ var app = new Node({
 });
 ```
 
-Finally, before we deploy our MEAN stack, let's set the `sshKeys` property to
-be our GitHub username instead of `ejj`. This way we can ssh into the VMs in
-our deployment using any ssh key associated with our GitHub profile.
-
-```javascript
-var baseMachine = new Machine({
-    ...
-    sshKeys: githubKeys("ejj"),
-});
-```
-
 If you want to change the characteristics of the VMs, go ahead and modify the
-relevant properties of the `baseMachine` object.
+relevant properties of the `baseMachine` object in
+[`meanExample.js`](./meanExample.js).
 
 ##### Deploy
 Now we're ready to deploy our MEAN stack application! If you haven't already
@@ -67,8 +60,8 @@ worked through [Quilt's Getting Started guide](http://docs.quilt.io/#getting-sta
 guide, now is a good time to check it out and set up Quilt.
 
 When you're set up, run `quilt daemon` in one shell, and then run
-`quilt run ./mean.js` from the `mean` directory in another shell. If successful,
-the `quilt run` command has no output, while the daemon will output logs
+`quilt run ./meanExample.js` from the `mean` directory in another shell. If
+successful, the `quilt run` command has no output, while the daemon will output logs
 similar to this:
 
 ```
@@ -105,6 +98,39 @@ app is up!
 To shut down our application and VMs, run `quilt stop`, and wait for the message
 `Successfully halted machines.` in the quilt daemon output.
 
-### More Info
-See [Quilt](http://quilt.io) for more information.
+## How This Works
+
+This repository contains a blueprint to run a MEAN stack application.  The
+blueprint is broken into two different files:
+
+- `mean.js`: This file exports a constructor `Mean` that creates a
+deployable object that represents a MEAN stack application.  Deploying a
+`Mean` instance deploys a replicated Node.js application, an HAProxy
+service to load balance over the Node.js application, and a replicated
+MongoDB service to use to store the application's data.
+These services are deployed by building on other, existing Quilt
+blueprints that `mean.js` `require()`s.  Because those existing blueprints
+describe how to run each individual service, all `mean.js` needs to do is to
+hook the services together (e.g., by opening a connection between MongoDB
+and the Node.js application).
+- `meanExample.js`: This file initializes a set of Amazon EC2 instances, and
+then uses the Mean constructor to deploy the example Node.js application (a
+TODO app) on those instances.
+While this particular file describes virtual machines on Amazon
+EC2, an infrastructure can describe physical or virtual machines
+on any cloud provider (Quilt currently supports GCE, AWS, DigitalOcean,
+and Vagrant is experimental).
+
+## Next steps
+
+For more information about setting up Quilt, or if you're interested in using
+Quilt to launch other applications, check out our
+[Getting Started Guide](http://docs.quilt.io/#getting-started).
+If you're interested in writing your own blueprints, take a look at our
+[Blueprint Writer's Guide](http://docs.quilt.io/#blueprint-writers-guide).
+
+## Feedback
+
+If you run into any hiccups or have feedback about using Quilt, we'd love to
+hear from you! Shoot us an email at [dev@quilt.io](mailto:dev@quilt.io).
 

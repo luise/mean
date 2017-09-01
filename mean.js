@@ -1,34 +1,28 @@
-const { createDeployment, Machine, Range, githubKeys, publicInternet }
-  = require('@quilt/quilt');
 const haproxy = require('@quilt/haproxy');
 const Mongo = require('@quilt/mongo');
 const Node = require('@quilt/nodejs');
+const { publicInternet } = require('@quilt/quilt');
 
-// AWS
-const namespace = createDeployment();
+function Mean(count) {
+  const port = 80;
+  this.mongo = new Mongo(count);
+  this.app = new Node({
+    nWorker: count,
+    repo: 'https://github.com/quilt/node-todo.git',
+    env: {
+      PORT: port.toString(),
+      MONGO_URI: this.mongo.uri('mean-example'),
+    },
+  });
 
-const baseMachine = new Machine({
-  provider: 'Amazon',
-  cpu: new Range(1),
-  ram: new Range(2),
-  sshKeys: githubKeys('ejj'),
-});
-namespace.deploy(baseMachine.asMaster());
-namespace.deploy(baseMachine.asWorker().replicate(3));
+  this.proxy = haproxy.simpleLoadBalancer(this.app.cluster);
 
-const mongo = new Mongo(3);
-const app = new Node({
-  nWorker: 3,
-  repo: 'https://github.com/quilt/node-todo.git',
-  env: {
-    PORT: '80',
-    MONGO_URI: mongo.uri('mean-example'),
-  },
-});
+  this.mongo.allowFrom(this.app.cluster, this.mongo.port);
+  this.proxy.allowFrom(publicInternet, haproxy.exposedPort);
 
-const proxy = haproxy.simpleLoadBalancer(app.cluster);
+  this.deploy = function deploy(deployment) {
+    deployment.deploy([this.app, this.mongo, this.proxy]);
+  };
+}
 
-mongo.allowFrom(app.cluster, mongo.port);
-proxy.allowFrom(publicInternet, haproxy.exposedPort);
-
-namespace.deploy([app, mongo, proxy]);
+module.exports = Mean;
