@@ -15,9 +15,9 @@ function Mean(count, nodeRepo) {
     },
   });
 
-  this.proxy = haproxy.simpleLoadBalancer(this.app.cluster);
+  this.proxy = haproxy.simpleLoadBalancer(this.app.containers);
 
-  this.mongo.allowFrom(this.app.cluster, this.mongo.port);
+  this.mongo.allowFrom(this.app.containers, this.mongo.port);
   this.proxy.allowFrom(publicInternet, haproxy.exposedPort);
 
   this.deploy = function deploy(deployment) {
