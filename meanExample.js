@@ -20,4 +20,4 @@ infrastructure.deploy(machine.asWorker().replicate(count));
 
 const nodeRepository = 'https://github.com/quilt/node-todo.git';
 const mean = new Mean(count, nodeRepository);
-infrastructure.deploy(mean);
+mean.deploy(infrastructure);

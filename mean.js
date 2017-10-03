@@ -21,7 +21,9 @@ function Mean(count, nodeRepo) {
   this.proxy.allowFrom(publicInternet, haproxy.exposedPort);
 
   this.deploy = function deploy(deployment) {
-    deployment.deploy([this.app, this.mongo, this.proxy]);
+    this.app.deploy(deployment);
+    this.mongo.deploy(deployment);
+    this.proxy.deploy(deployment);
   };
 }
 
