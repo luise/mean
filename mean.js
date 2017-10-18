@@ -1,7 +1,7 @@
-const haproxy = require('@quilt/haproxy');
-const Mongo = require('@quilt/mongo');
-const Node = require('@quilt/nodejs');
-const { publicInternet } = require('@quilt/quilt');
+const haproxy = require('@kelda/haproxy');
+const Mongo = require('@kelda/mongo');
+const Node = require('@kelda/nodejs');
+const { publicInternet } = require('kelda');
 
 function Mean(count, nodeRepo) {
   const port = 80;

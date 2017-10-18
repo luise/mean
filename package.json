@@ -1,12 +1,12 @@
 {
-  "name": "@quilt/mean",
+  "name": "@kelda/mean",
   "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
-    "@quilt/quilt": "quilt/quilt",
-    "@quilt/mongo": "quilt/mongo",
-    "@quilt/nodejs": "quilt/nodejs",
-    "@quilt/haproxy": "quilt/haproxy"
+    "kelda": "0.x",
+    "@kelda/mongo": "kelda/mongo",
+    "@kelda/nodejs": "kelda/nodejs",
+    "@kelda/haproxy": "kelda/haproxy"
   },
   "devDependencies": {
     "eslint": "^4.4.0",

@@ -1,16 +1,16 @@
-# MEAN Stack for Quilt.js
+# MEAN Stack for Kelda.js
 The MEAN stack (MongoDB, Express, AngularJS, and node.js) is a popular fullstack
 JavaScript framework used for web development. Deploying a flexible, multi-node
-MEAN stack app can be both time consuming and costly, but Quilt simplifies this
+MEAN stack app can be both time consuming and costly, but Kelda simplifies this
 process. Below, we walk through how to deploy your application in the cloud
-using Quilt.
+using Kelda.
 
 If you'd like to learn more about the files in this repository and how they
 work, scroll to the [How This Works](#how-this-works) section at the end.
 
 <img src="./images/mean.gif">
 
-## Deploying your MEAN stack app with Quilt
+## Deploying your MEAN stack app with Kelda
 This repository already contains all the code needed for deploying the multi-node
 MEAN stack. The current code deploys a todo app, but we want to change it to
 deploy our very simple example app, `awesome-restaurant-app`, located in
@@ -24,7 +24,7 @@ To do this, we just have to tweak a single line of code in
 ##### Our app
 First, we make sure that our MongoDB connection URI is set to the `MONGO_URI`
 environment variable. Note that this is set in our MEAN app code, not the
-Quilt.js specs:
+Kelda.js specs:
 
 ```javascript
 var mongoose = require('mongoose');
@@ -32,7 +32,7 @@ mongoose.connect(process.env.MONGO_URI);
 ```
 
 This is already done in the `awesome-restaurant-app`, but you'll need to
-do something similar to your own MEAN app before deploying it with Quilt.
+do something similar to your own MEAN app before deploying it with Kelda.
 
 For an example, see how [server.js](https://github.com/luise/awesome-restaurant-app/blob/master/server.js#L10)
 in the `awesome-restaurant-app` uses the URI in [config/database.js](https://github.com/luise/awesome-restaurant-app/blob/master/config/database.js) to connect to MongoDB.
@@ -52,16 +52,16 @@ relevant properties of the `baseMachine` object in
 
 ##### Deploy
 Now we're ready to deploy our MEAN stack application! If you haven't already
-worked through [Quilt's Getting Started guide](http://docs.quilt.io/#getting-started)
-guide, now is a good time to check it out and set up Quilt.
+worked through [Kelda's Getting Started guide](http://docs.kelda.io/#getting-started)
+guide, now is a good time to check it out and set up Kelda.
 
-When you're set up, run `quilt daemon` in one shell, and then run
-`quilt run ./meanExample.js` from the `mean` directory in another shell. If
-successful, the `quilt run` command has no output, while the daemon will output logs
+When you're set up, run `kelda daemon` in one shell, and then run
+`kelda run ./meanExample.js` from the `mean` directory in another shell. If
+successful, the `kelda run` command has no output, while the daemon will output logs
 similar to this:
 
 ```
-$ quilt daemon
+$ kelda daemon
 INFO [Feb 17 16:23:59.181] db.Cluster:
 	Cluster-1{}
 INFO [Feb 17 16:23:59.184] db.Machine:
@@ -70,13 +70,13 @@ INFO [Feb 17 16:23:59.184] db.Machine:
 	...
 ```
 
-You can see the status of the system with the command `quilt show`. The system is
+You can see the status of the system with the command `kelda show`. The system is
 fully booted when the `STATUS`es of all containers are `running`:
 
 ```
 CONTAINER       MACHINE         COMMAND                                 LABELS      STATUS     CREATED               PUBLIC IP
 7101084e12ab    89d34da8fde9    node-app:awesome-restaurant-app.git     app         running    About a minute ago
-c8e5464625e0    89d34da8fde9    quilt/mongo                             mongo       running    About a minute ago
+c8e5464625e0    89d34da8fde9    keldaio/mongo                           mongo       running    About a minute ago
 
 4d3d6be15985    a2077202355d    haproxy:1.6.4                           hap         running    About a minute ago    54.193.9.14:80
 ...
@@ -84,15 +84,15 @@ c8e5464625e0    89d34da8fde9    quilt/mongo                             mongo   
 
 ##### Access Web App
 We can now access our web app by using the public IP address of the VM hosting
-a proxy container. The above output from `quilt show` shows us that we can access
+a proxy container. The above output from `kelda show` shows us that we can access
 the web app at `54.193.9.14`.
 
 Now, simply go to `http://PROXY_PUBLIC_IP:80` in your browser. As you see, our
 app is up!
 
 ##### Shut Down VMs
-To shut down our application and VMs, run `quilt stop`, and wait for the message
-`Successfully halted machines.` in the quilt daemon output.
+To shut down our application and VMs, run `kelda stop`, and wait for the message
+`Successfully halted machines.` in the kelda daemon output.
 
 ### Deploying a MEAN stack alongside other services
 
@@ -100,19 +100,19 @@ The description above described how to modify [meanExample.js](./meanExample.js)
 to run your own MEAN application.  [meanExample.js](./meanExample.js) created
 virtual machines, and used the functionality in [mean.js](./mean.js) to launch a
 MEAN stack on those machines.  You may want to incorporate your application
-into a larger collection of services that you deploy with Quilt.  To do this,
+into a larger collection of services that you deploy with Kelda.  To do this,
 first import the functionality in [mean.js](./mean.js) by requiring the
-`@quilt/mean` npm package:
+`@kelda/mean` npm package:
 
 ```javascript
-require('@quilt/mean');
+require('@kelda/mean');
 ```
 
-You'll also need to add a dependency on `@quilt/mean` to `package.json`:
+You'll also need to add a dependency on `@kelda/mean` to `package.json`:
 
 ```json
 "dependencies": {
-  "@quilt/mean": "quilt/mean",
+  "@kelda/mean": "kelda/mean",
 }
 ```
 
@@ -120,10 +120,10 @@ Then use the `Mean` constructor, as in [meanExample.js](./meanExample.js), to
 initialize and deploy a MEAN stack:
 
 ```javascript
-// Create a Quilt deployment object. This will be used to deploy the MEAN
+// Create a Kelda deployment object. This will be used to deploy the MEAN
 // stack, and can also be used to deploy other parts of your application
 // (e.g., myOtherService.deploy(deployment)).
-const deployment = quilt.createDeployment();
+const deployment = kelda.createDeployment();
 
 // Use 3 Mongo containers and 3 Node application containers.
 const count = 3;
@@ -143,7 +143,7 @@ deployable object that represents a MEAN stack application.  Deploying a
 `Mean` instance deploys a replicated Node.js application, an HAProxy
 service to load balance over the Node.js application, and a replicated
 MongoDB service to use to store the application's data.
-These services are deployed by building on other, existing Quilt
+These services are deployed by building on other, existing Kelda
 blueprints that `mean.js` `require()`s.  Because those existing blueprints
 describe how to run each individual service, all `mean.js` needs to do is to
 hook the services together (e.g., by opening a connection between MongoDB
@@ -153,19 +153,19 @@ then uses the Mean constructor to deploy the example Node.js application (a
 TODO app) on those instances.
 While this particular file describes virtual machines on Amazon
 EC2, an infrastructure can describe physical or virtual machines
-on any cloud provider (Quilt currently supports GCE, AWS, DigitalOcean,
+on any cloud provider (Kelda currently supports GCE, AWS, DigitalOcean,
 and Vagrant is experimental).
 
 ## Next steps
 
-For more information about setting up Quilt, or if you're interested in using
-Quilt to launch other applications, check out our
-[Getting Started Guide](http://docs.quilt.io/#getting-started).
+For more information about setting up Kelda, or if you're interested in using
+Kelda to launch other applications, check out our
+[Getting Started Guide](http://docs.kelda.io/#getting-started).
 If you're interested in writing your own blueprints, take a look at our
-[Blueprint Writer's Guide](http://docs.quilt.io/#blueprint-writers-guide).
+[Blueprint Writer's Guide](http://docs.kelda.io/#blueprint-writers-guide).
 
 ## Feedback
 
-If you run into any hiccups or have feedback about using Quilt, we'd love to
-hear from you! Shoot us an email at [dev@quilt.io](mailto:dev@quilt.io).
+If you run into any hiccups or have feedback about using Kelda, we'd love to
+hear from you! Shoot us an email at [dev@kelda.io](mailto:dev@kelda.io).
 
