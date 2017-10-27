@@ -1,6 +1,5 @@
 const kelda = require('kelda');
 const Mean = require('./mean.js');
-const utils = require('./utils.js');
 
 // Replication to use for the node application
 // and Mongo.
@@ -11,8 +10,6 @@ const machine = new kelda.Machine({
   cpu: new kelda.Range(1),
   ram: new kelda.Range(2),
 });
-
-utils.addSshKey(machine);
 
 const infra = new kelda.Infrastructure(machine, machine.replicate(count));
 
