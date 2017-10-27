@@ -5,7 +5,6 @@ const utils = require('./utils.js');
 // Replication to use for the node application
 // and Mongo.
 const count = 2;
-const infrastructure = kelda.createDeployment();
 
 const machine = new kelda.Machine({
   provider: 'Amazon',
@@ -15,9 +14,8 @@ const machine = new kelda.Machine({
 
 utils.addSshKey(machine);
 
-infrastructure.deploy(machine.asMaster());
-infrastructure.deploy(machine.asWorker().replicate(count));
+const infra = new kelda.Infrastructure(machine, machine.replicate(count));
 
 const nodeRepository = 'https://github.com/kelda/node-todo.git';
 const mean = new Mean(count, nodeRepository);
-mean.deploy(infrastructure);
+mean.deploy(infra);

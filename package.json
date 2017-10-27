@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
-    "kelda": "0.x",
+    "kelda": ">=0.0.5 <1.0.0",
     "@kelda/mongo": "kelda/mongo",
     "@kelda/nodejs": "kelda/nodejs",
     "@kelda/haproxy": "kelda/haproxy"
