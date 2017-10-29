@@ -13,7 +13,7 @@ before_script:
 
 script:
     - gulp lint
-    - ./kelda inspect ./mean.js graphviz
+    - ./kelda inspect ./meanExample.js graphviz
 
 notifications:
     slack:
