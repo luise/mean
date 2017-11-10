@@ -52,8 +52,8 @@ relevant properties of the `baseMachine` object in
 
 ##### Deploy
 Now we're ready to deploy our MEAN stack application! If you haven't already
-worked through [Kelda's Getting Started guide](http://docs.kelda.io/#getting-started)
-guide, now is a good time to check it out and set up Kelda.
+set up Kelda and your provider credentials, go ahead and follow [the instructions](http://docs.kelda.io/#installing-kelda)
+in our docs.
 
 When you're set up, run `kelda daemon` in one shell, and then run
 `kelda run ./meanExample.js` from the `mean` directory in another shell. If
@@ -158,9 +158,8 @@ and Vagrant is experimental).
 
 ## Next steps
 
-For more information about setting up Kelda, or if you're interested in using
-Kelda to launch other applications, check out our
-[Getting Started Guide](http://docs.kelda.io/#getting-started).
+For more information about how Kelda works, and how to use
+Kelda to launch other applications, check out our [docs](http://docs.kelda.io).
 If you're interested in writing your own blueprints, take a look at our
 [Blueprint Writer's Guide](http://docs.kelda.io/#blueprint-writers-guide).
 
