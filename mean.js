@@ -1,7 +1,7 @@
 const haproxy = require('@kelda/haproxy');
 const Mongo = require('@kelda/mongo');
 const Node = require('@kelda/nodejs');
-const { publicInternet } = require('kelda');
+const { publicInternet, allowTraffic } = require('kelda');
 
 function Mean(count, nodeRepo) {
   const port = 80;
@@ -17,8 +17,8 @@ function Mean(count, nodeRepo) {
 
   this.proxy = haproxy.simpleLoadBalancer(this.app.containers);
 
-  this.mongo.allowFrom(this.app.containers, this.mongo.port);
-  this.proxy.allowFrom(publicInternet, haproxy.exposedPort);
+  this.mongo.allowTrafficFrom(this.app.containers, this.mongo.port);
+  allowTraffic(publicInternet, this.proxy, haproxy.exposedPort);
 
   this.deploy = function deploy(deployment) {
     this.app.deploy(deployment);
