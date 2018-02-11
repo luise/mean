@@ -11,7 +11,10 @@ const machine = new kelda.Machine({
   ram: new kelda.Range(2),
 });
 
-const infra = new kelda.Infrastructure(machine, machine.replicate(count));
+const infra = new kelda.Infrastructure({
+  masters: machine,
+  workers: machine.replicate(count),
+});
 
 const nodeRepository = 'https://github.com/kelda/node-todo.git';
 const mean = new Mean(count, nodeRepository);
